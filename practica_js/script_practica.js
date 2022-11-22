@@ -1,7 +1,7 @@
 import readline from 'readline'
 
 const students = [{
-    age: 29,
+    age: 30,
     examScores: [],
     gender: 'female',
     name: 'silvia'
@@ -119,13 +119,29 @@ else if (numberconsole == 10){ /* Añadir un alumno nuevo */
     console.table(students);
 }
 else if (numberconsole == 11){ /* Mostrar el nombre de la persona más joven */
-
+    let ages = []
+    students.forEach(student => {
+        ages.push(student.age);
+    })
+    const min = Math.min(...ages)
+    console.log(min)
 }
 else if (numberconsole == 12){ /* Mostrar edad media de todos los alumnos */
-
+    const initialValue = 0;
+    const sumWithInitial = students.reduce(
+    (accumulator, students) => accumulator + students.age, initialValue
+    ) / students.length;
+    console.log('La edad media de la clase es: ', sumWithInitial);
 }
 else if (numberconsole == 13){ /* Mostrar la edad media de las chicas */
-
+    let newfemlist = [];
+    students.forEach(student => {
+        if (student.gender === 'female'){
+            newfemlist.push(student.age)
+        };
+    });
+    const sum = newfemlist.reduce(function(a, b){return (a + b) / newfemlist.length});
+    console.log('La edad media de las chicas en clase es: ', sum);
 }
 else if (numberconsole == 14){ /* Añadir nueva nota. Calcula una nota aleatoria entre 0 y 10 y añade a la lista de cada alumno */
     students.forEach(student => {student.examScores.push(calculateRandom(1, 10))   
