@@ -15,8 +15,6 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-
-
 function getnumberforconsole(){
     const promise = new Promise((resolve, reject) => {
         rl.question('Introduce el número: ', (num) => {
