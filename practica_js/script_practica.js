@@ -4,23 +4,23 @@ const students = [{
     age: 30,
     examScores: [],
     gender: 'female',
-    name: 'silvia'
+    name: 'Silvia'
   },
   {
     age: 22,
     examScores: [],
     gender: 'male',
-    name: 'edu'
+    name: 'Edu'
   },
   {
     age: 20,
     examScores: [],
     gender: 'female',
-    name: 'sonia'
+    name: 'Sonia'
 }]
 
-const availableMaleNames = ['pepe', 'juan', 'victor', 'Leo', 'francisco', 'carlos'];
-const availableFemaleNames = ['cecilia', 'ana', 'luisa', 'silvia', 'isabel', 'virginia'];
+const availableMaleNames = ['Pepe', 'Juan', 'Victor', 'Leo', 'Francisco', 'Carlos'];
+const availableFemaleNames = ['Cecilia', 'Ana', 'Luisa', 'Sandra', 'Isabel', 'Virginia'];
 const availableGenders = ['male', 'female'];
 
 function calculateRandom(min, max) {
