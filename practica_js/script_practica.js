@@ -57,6 +57,25 @@ function getorder(){
 return promise;
 }
 
+async function whattodo(){
+    let numberconsole
+    do{
+        try {
+           numberconsole = await getorder(); 
+        } catch (error) {
+            console.log(error);
+            process.exit(0);
+        }
+        if (numberconsole == 0){
+            rl.close();
+            console.log('Hasta pronto!');
+        } else {
+            orders(numberconsole);
+        }
+    }
+    while (numberconsole != 0)
+}
+
 function orders(numberconsole){
     switch(numberconsole){
         case 1: /*Mostrar en formato tabla todos los alumnos*/
@@ -163,26 +182,33 @@ function orders(numberconsole){
                 return 0;
             }));
             break;
+        case 16: /* Mostrar por consola el alumno con mejores notas. Sumatorio de notas más alto */
+            let sumatorio = []
+            students.forEach(student =>
+                sumatorio.push(student.examScores.reduce(function(a, b){return a + b}),
+            ))
+            const max = Math.max(...sumatorio)
+            students.forEach(student => {
+                if (student.examScores.reduce(function(a, b){return a + b}) == max){
+                    console.log(student);
+                }
+            }) 
+            break;
+        case 17: /* Mostrar la nota media más alta de la clase y el nombre del alumno al que pertenece */
+            let notamedia = []
+            students.forEach(student =>
+                notamedia.push(student.examScores.reduce(function(a, b){return (a + b)})/student.examScores.length
+            ))
+            const maxnota = Math.max(...notamedia)
+            students.forEach(student => {
+                if (student.examScores.reduce(function(a, b){return (a + b)})/student.examScores.length == maxnota){
+                    console.log(student.name, student.examScores.reduce(function(a, b){return (a + b)})/student.examScores.length);
+                }
+            }) 
+            break;
     }
 }
 
-async function whattodo(){
-    let numberconsole
-    do{
-        try {
-           numberconsole = await getorder(); 
-        } catch (error) {
-            console.log(error)
-            process.exit(0)
-        };
-        if (numberconsole == 0){
-            rl.close()
-            console.log('Hasta pronto!')
-        } else {
-            orders(numberconsole)
-        };
-    }
-    while (numberconsole != 0)
-}
+
 
 whattodo()
