@@ -122,93 +122,103 @@ function orders(numberconsole){
             intwenties.forEach(twentie => console.log(twentie.name));
             break;
         case 10: /* Añadir un alumno nuevo */
-            const randomGender = availableGenders[Math.floor(Math.random() * availableGenders.length)];
-            let randomName = '';
-            if (randomGender === 'male'){
-                randomName += availableMaleNames[Math.floor(Math.random() * availableMaleNames.length)]
-            } else if (randomGender === 'female'){
-                randomName += availableFemaleNames[Math.floor(Math.random() * availableFemaleNames.length)]
+            const randomgender = availableGenders[Math.floor(Math.random() * availableGenders.length)];
+            let randomname = '';
+            if (randomgender === 'male'){
+                randomname += availableMaleNames[Math.floor(Math.random() * availableMaleNames.length)]
+            } else if (randomgender === 'female'){
+                randomname += availableFemaleNames[Math.floor(Math.random() * availableFemaleNames.length)]
             };
             students.push({ 
                 age: calculateRandom(20, 50), 
                 examScores: [], 
-                gender: randomGender, 
-                name: randomName,
+                gender: randomgender, 
+                name: randomname,
             });
             console.table(students);
             break;
         case 11: /* Mostrar el nombre de la persona más joven */
-            let ages = [];
-            students.forEach(student => {
-                ages.push([student.age])
-            });
+            let ages = []
+            students.forEach(student => {ages.push([student.age]);
+            })
             const min = Math.min(...ages);
-            students.forEach(student => {
-                if (student.age === min){
-                    return console.log('La persona más joven de la clase es: ', student.name)
-                };
-            });
+            for(let index = 0; index < students.length; index++){
+                if (students[index].age === min){
+                    return console.log(students[index].name);
+                }}
             break;
         case 12: /* Mostrar edad media de todos los alumnos */
-            const initialValue = 0;
-            const sumWithInitial = students.reduce((accumulator, students
-                ) => accumulator + students.age, initialValue) / students.length;
-            console.log('La edad media de la clase es: ', sumWithInitial);
+            const sumAge = students.reduce((accum, students) => 
+                accum + students.age, 0) / students.length;
+            console.log(sumAge);
             break;
         case 13: /* Mostrar la edad media de las chicas */
             let newfemlist = [];
             students.forEach(student => {
                 if (student.gender === 'female'){
-                    newfemlist.push(student.age)
-                }
-            });
-            console.log(newfemlist)
-            const sum = newfemlist.reduce(function(a, b){return (a + b)})/newfemlist.length;
-            console.log('La edad media de las chicas en clase es: ', sum);
+                    newfemlist.push(student.age);
+            }})
+            const sum = newfemlist.reduce((accum, girl) => accum + girl, 0) / newfemlist.length;
+            console.log(sum);
             break;
         case 14: /* Añadir nueva nota. Calcula una nota aleatoria entre 0 y 10 y añade a la lista de cada alumno */
             students.forEach(student => {student.examScores.push(calculateRandom(1, 10))   
-            });
+            })
             console.table(students);
             break;
         case 15: /* Ordenar la lista de alumnos alfabéticamente */
-            console.table(students.sort(function (a, b) {
-                if (a.name > b.name) {
-                    return 1
-                };
-                if (a.name < b.name) {
-                    return -1  
-                };
+            console.table(students.sort(function(alumno1, alumno2) {
+                if (alumno1.name > alumno2.name) {
+                    return 1;
+                } else if (alumno1.name < alumno2.name) {
+                    return -1; 
+                }
                 return 0;
-            }));
+            }))
             break;
         case 16: /* Mostrar por consola el alumno con mejores notas. Sumatorio de notas más alto */
-            let sumatorio = []
+            let sumatorio = [];
             students.forEach(student =>
-                sumatorio.push(student.examScores.reduce(function(a, b){return a + b}),
-            ))
-            const max = Math.max(...sumatorio)
-            students.forEach(student => {
-                if (student.examScores.reduce(function(a, b){return a + b}) == max){
-                    console.log(student);
-                }
-            }) 
+                sumatorio.push(student.examScores.reduce((accum, nota) => accum + nota, 0))
+            )
+            const max = Math.max(...sumatorio);
+            for(let index = 0; index < students.length; index++){
+                const suma = students[index].examScores.reduce((accum, nota) => accum + nota, 0)
+                if ( suma === max) {
+                    return console.log(students[index]);
+            }}
             break;
         case 17: /* Mostrar la nota media más alta de la clase y el nombre del alumno al que pertenece */
-            let notamedia = []
+            let notamedia = [];
             students.forEach(student =>
-                notamedia.push(student.examScores.reduce(function(a, b){return (a + b)})/student.examScores.length
-            ))
-            const maxnota = Math.max(...notamedia)
-            students.forEach(student => {
-                if (student.examScores.reduce(function(a, b){return (a + b)})/student.examScores.length == maxnota){
-                    console.log(student.name, student.examScores.reduce(function(a, b){return (a + b)})/student.examScores.length);
+                notamedia.push(student.examScores.reduce((accum, nota) => 
+                    accum + nota, 0) / student.examScores.length
+            ));
+            const maxnota = Math.max(...notamedia);
+            for(let index = 0; index < students.length; index++) {
+                const media = students[index].examScores.reduce((accum, nota) => 
+                    accum + nota, 0) / students[index].examScores.length;
+                if (media === maxnota) {
+                    return console.log(students[index].name, media);
+            }}
+            break;
+        case 18: /*Añadir un punto extra a cada nota existente de todos los alumnos. La nota máxima posible es 10. 
+        Si los alumnos aún no tienen registrada ninguna nota, les pondremos un 10. */
+            for(let index = 0; index < students.length; index++) {
+                students[index].examScores = (students[index].examScores.map(function(x){
+                    if(x < 10){
+                        return x += 1;
+                    } else {
+                        return x;
+                    }
+                }))
+                if(students[index].examScores.length == 0){
+                    students[index].examScores.push(10);
                 }
-            }) 
+            }
+            console.table(students);
             break;
     }
 }
-
-
 
 whattodo()
